@@ -10,8 +10,8 @@ const RandomizedElements  = () =>{
     const [items, setItems] = useState([]);
     const [itemsLoading, setItemsLoading] = useState(true);
 
-    const [runes, setRunes] = useState ([]);
-    const [runesLoading, setRunesLoading] = useState(true);
+    // const [runes, setRunes] = useState ([]);
+    // const [runesLoading, setRunesLoading] = useState(true);
 
     const [version , setVersion] = useState("");
     const [versionLoading, setVersionLoading] = useState(true);
@@ -29,6 +29,7 @@ const RandomizedElements  = () =>{
       setVersionLoading(false);
     };
  
+
     const championsFetch = async () => {
         const dataFetch = await fetch("https://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/champion.json");
         if(dataFetch.ok){
@@ -42,17 +43,19 @@ const RandomizedElements  = () =>{
         setChampionLoading(false);
       };
 
-      const runesFetch = async () => {
-        const dataFetch =  await fetch("https://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/runesReforged.json");
-        if(dataFetch.ok){
-          const response = await dataFetch.json();
-          const championObejct = response;
-          setRunes(championObejct);
-        } else{
-          alert("Failed to connect to riot server, please try again later.")
-        }
-        setRunesLoading(false);
-      };
+
+
+      // const runesFetch = async () => {
+      //   const dataFetch =  await fetch("https://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/runesReforged.json");
+      //   if(dataFetch.ok){
+      //     const response = await dataFetch.json();
+      //     const championObejct = response;
+      //     setRunes(championObejct);
+      //   } else{
+      //     alert("Failed to connect to riot server, please try again later.")
+      //   }
+      //   setRunesLoading(false);
+      // };
 
       const itemsFetch = async () => {
         const dataFetch =  await fetch("https://ddragon.leagueoflegends.com/cdn/" + version + "/data/en_US/item.json");
@@ -74,57 +77,63 @@ const RandomizedElements  = () =>{
     useEffect(()=>{
       if(version !== ""){
        itemsFetch();
-       runesFetch();
+      //  runesFetch();
        championsFetch();
+      }
+
+      if(!itemsLoading && !championLoading){
+        console.log(champions);
+        console.log(items);
       }
     },[version])
 
   // once all data collected parse it to make it useable
-    useEffect(()=>{
-      let allItems = [];
-      for (const itemID in items.data){
-        //console.log(itemID);
-        const item = items.data[itemID];
-        // actual buildable items in normal and ranked games
+    // useEffect(()=>{
+      
+    //   let allItems = [];
+    //   for (const itemID in items.data){
+    //     //console.log(itemID);
+    //     const item = items.data[itemID];
+        
+    //     // actual buildable items in normal and ranked games
+    //     if( 
+    //         item.hasOwnProperty('requiredAlly') === false &&
+    //         item.hasOwnProperty('requiredChampion') === false &&
+    //         item.maps[11] && 
+    //         (item.hasOwnProperty("inStore") === false) &&
+    //         (item.tags.includes("Consumable") === false) &&
+    //         (item.tags.includes("Trinket") === false) &&
+    //         (item.tags.includes("Lane") === false) &&
+    //         (item.tags.includes("Jungle") === false)
+    //         )
+    //         {
+    //     allItems.push(item);
+    //     };
+    //   }
+  
 
-        if( 
-            item.hasOwnProperty('requiredAlly') === false &&
-            item.hasOwnProperty('requiredChampion') === false &&
-            item.maps[11] && 
-            (item.hasOwnProperty("inStore") === false) &&
-            (item.tags.includes("Consumable") === false) &&
-            (item.tags.includes("Trinket") === false) &&
-            (item.tags.includes("Lane") === false) &&
-            (item.tags.includes("Jungle") === false)
-            )
-            {
-        allItems.push(item);
-        };
-      }
-      //console.log(allItems); 
+    //   // these item arrays might have to be stored in state. 
 
-      // these item arrays might have to be stored in state. 
+    //   let mythicItems = [];
+    //   let boots = [];
+    //   let regularItems = [];
 
-      let mythicItems = [];
-      let boots = [];
-      let regularItems = [];
+    //   // boots
+    //   for(let item in allItems){
+    //     const focusedItem = allItems[item];
+    //     const tags = focusedItem.tags;
+    //     //console.log(tags);
+    //     if(tags.includes('Boots')){
+    //       boots.push(focusedItem);
+    //     }
+    //   }
 
-      // boots
-      for(let item in allItems){
-        const focusedItem = allItems[item];
-        const tags = focusedItem.tags;
-        //console.log(tags);
-        if(tags.includes('Boots')){
-          boots.push(focusedItem);
-        }
-      }
+    //   // mythicItems
 
-      // mythicItems
-
-      // regularItems
-    },[champions,items,runes])
+    //   // regularItems
+    // },[champions,items,runes])
 
   return null;
 }
 
-export  default RandomizedElements 
+export  default RandomizedElements;

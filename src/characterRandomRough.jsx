@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 
-const CharacterRandomizer = () =>{
+const Randomizer = () =>{
     const [champions, setChampions] = useState([]);
-    const [loading , setLoading] = useState(true);
     const [randomChamp, setRandom] = useState("");
+    const [loading , setLoading] = useState(true);
 
     const championFetch = async () => {
       const dataFetch = await fetch("https://ddragon.leagueoflegends.com/cdn/13.14.1/data/en_US/champion.json");
@@ -12,6 +12,7 @@ const CharacterRandomizer = () =>{
       setChampions(championObejct);
       setLoading(false);
     };
+    
     const randomNumberGenerator = (array) =>{
       const randomInt = Math.floor(Math.random() * array.length);
       return randomInt;
@@ -42,4 +43,7 @@ const CharacterRandomizer = () =>{
   )
 };
 
-export default CharacterRandomizer;
+
+
+
+export default Randomizer;
