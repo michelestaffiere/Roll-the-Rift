@@ -1,10 +1,23 @@
+import { useState,useEffect } from 'react'
 import './App.css'
+import Header from './Header'
 import Randomizer from './Randomizer'
+import ChampionSelector from './championSelctorForm'
 
 function App() {
+const [selectedChampions,setSelectedChampions] = useState([]);
+
+useEffect(()=>{
+  console.log(selectedChampions)
+},[selectedChampions])
+
  return (
     <>
-     <Randomizer />
+      <Header />
+      <section className='main'>
+      <ChampionSelector  setState={setSelectedChampions} />
+      <Randomizer userChoice={selectedChampions}  />
+      </section>
     </>
   )
 }

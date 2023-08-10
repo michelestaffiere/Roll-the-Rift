@@ -36,7 +36,7 @@ const DataParser = () =>{
         const champion = champions[key];
         const data ={
           'name': `${champion.name}`,
-          'title': `${champion.title}`,S
+          'title': `${champion.title}`,
           'key': `${champion.key}`,
           'img' : `${champion.image.full}`
         }
@@ -73,7 +73,7 @@ const DataParser = () =>{
 
 
 // actual randomizer function - takes in two arrays and returns a random champion and 6 random items.
-const rtd = (champArray, itemArray, setRanChamp , setRanItems) => {
+const rtd = (champArray, itemArray, setRanChamp , setRanItems, userSelection) => {
   const items = [];
   const champion = [];
   // Random Champion
@@ -96,6 +96,7 @@ const rtd = (champArray, itemArray, setRanChamp , setRanItems) => {
   let randomMythicIndex = Math.floor(Math.random() * mythicItems.length);
   let randomMythic = mythicItems[randomMythicIndex];
   items.push(randomMythic);
+
   // Random legendary Items
   while (items.length < 6) {
     randomIndex = Math.floor(Math.random() * itemArray.length);
@@ -107,20 +108,20 @@ const rtd = (champArray, itemArray, setRanChamp , setRanItems) => {
     randomItem.description.includes('mythic') ||
     randomItem.description.includes('Mythic passive') ||
     randomItem.description.includes('Mythic Passive');
-
-    if(!hasInto && !hasBootsTag && !hasMythicDecsirption){
+    // checking for dupes.
+    if(!hasInto && !hasBootsTag && !hasMythicDecsirption && !items.includes(randomItem)){
       items.push(randomItem);
     }
   }
   setRanChamp(champion);
   setRanItems(items);
-  // console.log(champion)
-  // console.log(items);
+
 };
 
 
-const Randomizer = () => {
+const Randomizer = ({userChoice}) => {
   const [c, i, v] = DataParser();
+  const userSelectedChampions = userChoice;
   const [champs, setChamps] = useState([]);
   const [items, setItems] = useState([]);
   const [version, setVersion] = useState([]);
@@ -135,22 +136,26 @@ const Randomizer = () => {
   }, [c, i, v]);
 
   const handleRollClick = () => {
-    rtd(champs, items, setRanChamp, setRanItems);
+    if (userSelectedChampions.length === 0){
+      rtd(champs, items, setRanChamp, setRanItems);
+    } else{
+      rtd(userSelectedChampions, items, setRanChamp, setRanItems);
+    }
   };
 
-  const handleRandomDisplay = (randomChamp,randomItems) =>{
+  const handleRandomDisplay = (randomChamp,randomItems,version) =>{
   let champ = randomChamp;
   let items = randomItems;
-  let imgEndPoint = "https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/" ;
+  let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/` ;
+  
     return(
       <div className="randomizedData">
             <div className="championImg">
-
+              <img src={imgEndPoint + champ[0].img} alt={`${champ[0].name} has been rolled`}/>
             </div>
             <div className="championInfo">
               <h2>{champ[0].name}</h2>
               <p>{champ[0].title}</p>
-              <img src={imgEndPoint + champ[0].img} alt={`${champ[0].name} has been rolled`}/>
             </div>
             <div className="items">
               <ul>
@@ -158,7 +163,7 @@ const Randomizer = () => {
                   items.map((item)=>{
                     let endpoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${item.image.full}`;
                     return(
-                        <li>
+                        <li key={item.name}>
                           <img src={endpoint} alt={item.name} />
                         </li>
                     )
@@ -177,16 +182,28 @@ const Randomizer = () => {
           <img src="/src/assets/loading-app.gif" alt="Loading Walk" />
         </div>
       ) : (
+        <>
         <section className="randomizerContainer">
-          <button onClick={handleRollClick}>Roll the dice!</button>
+        <button onClick={handleRollClick}>Roll the dice!</button>
           { randomChamp.length ===  0 ? (
-            <h2>Getting Spicy</h2>
+            <>
+            <h2>Greetings Summoner!</h2>
+            <p>Welcome to RTR: Roll the rift! are you tired of following pro guides and try hard reddit builds?</p>
+            <p>do you want to have fun again experimenting with wacky builds like how we used to back before this wretched game had a real meta? well look no further! </p>
+            <p>RTR is a TRUE random build generator, meaning NO hand holding, NO lane specific items</p>
+            <p>Rolled Garen with all AP items? tough luck thats your kit</p>
+            <p>With that being said, worry not my Jungle addicts, a random starting jungle item will be assigned to you as well as 6 full items.</p>
+            
+            <p>by default all champions will be considered viable rolls, if you dont have all champions unlocked or only want to play a certain few click your desired champions on the left.</p>
+           
+            </>
           ) : (
             <> 
-            {handleRandomDisplay(randomChamp,randomItems)}
+            {handleRandomDisplay(randomChamp,randomItems,version)}
             </>
           )}
         </section>
+        </>
       )}
     </>
   );
