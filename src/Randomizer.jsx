@@ -190,7 +190,7 @@ const Randomizer = ({userChoice}) => {
             <h2>Greetings Summoner!</h2>
             <p>Welcome to RTR: Roll the rift! are you tired of following pro guides and try hard reddit builds?</p>
             <p>do you want to have fun again experimenting with wacky builds like how we used to back before this wretched game had a real meta? well look no further! </p>
-            <p>RTR is a TRUE random build generator, meaning NO hand holding, NO lane specific items</p>
+            <p>RTR is a TRUE random build generator, meaning NO hand holding, NO lane specific items, all thats left for you to do is have fun with runes and summoner spells</p>
             <p>Rolled Garen with all AP items? tough luck thats your kit</p>
             <p>With that being said, worry not my Jungle addicts, a random starting jungle item will be assigned to you as well as 6 full items.</p>
             
