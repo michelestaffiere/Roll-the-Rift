@@ -1,9 +1,12 @@
+
+/* General Styling */
 :root{
   --text: #e8e8e8;
   --background: #030303;
   --primary: #ffdc00;
   --secondary: #1f1f1f;
   --accent: #858585;
+  font-family: 'Noto Sans Vithkuqi', sans-serif;
 }
 
 #root{
@@ -27,8 +30,10 @@
   grid-template-rows: 1fr;
   grid-column: 1/3;
 }
+/* General Styling Ends */
+/* ------------------------ */
 
-
+/* ChampionSelection Component Styling */
 .main .championSelection {
  display: flex;
  flex-wrap: wrap;
@@ -39,8 +44,6 @@
  margin: 0 auto;
  width: 50rem;
  padding: 10px;
- border: var(--primary) 2px solid ;
- border-radius: 5px;
 }
 .main .championSelection img{
   width: 50px;
@@ -50,4 +53,91 @@
 }
 .main .championSelection .selected{
   filter: grayscale(0);
+  border: var(--primary) 1px solid ;
 }
+/* ChampionSelection Component Styling ENDS*/
+/* ----------------------------------- */
+/* Randomizer Component Styling */
+.greeting{
+  width: 50%;
+  font-size: 1.25rem;
+}
+.greeting span{
+  color: var(--primary);
+  display: inline;
+  font-size: 2rem;
+  text-transform: uppercase;
+  text-shadow: var(--accent) -3px 2px 2px;
+}
+.randomizerContainer{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 1rem;
+}
+.randomizerContainer button{
+  align-self: flex-start;
+  width: fit-content;
+  padding: 10px;
+  border: none;
+  color: var(--background);
+  background-color: var(--primary);
+  font-family: 'Noto Sans Vithkuqi', sans-serif;
+  font-size: large;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .10s ease-in-out;
+}
+.randomizerContainer button:hover{
+  filter: grayscale(50%);
+}
+
+
+/* start up loading animation */
+.StartUpLoading{
+  margin: 0 auto;
+  width: 100%;
+  grid-column: 1/3;
+}
+/* Randomly generated info styling */
+.randomizedData{
+  display: flex;
+  align-items: start;
+  gap: 2rem;
+  width: 80%;
+  padding: 1rem;
+  border: 1px var(--primary) solid;
+  border-radius: 5px;
+  /* filter: drop-shadow(-29px 31px 0px var(--primary)); */
+  -webkit-box-shadow: -21px 26px 0px -2px var(--primary); 
+  box-shadow: -21px 26px 0px -2px var(--primary);
+  background-color: var(--background);  
+}
+
+/* Champion Styling */
+.championDetails h2{
+  font-size: 3em;
+  text-transform: uppercase;
+}
+.championImg img{
+  border: 2px var(--accent) solid;
+  border-radius: 5px;
+}
+/* item styling */
+.items ul{
+  display: flex;
+  list-style: none;
+  gap:1rem;
+  background-color: blue;
+}
+.items li{
+  display: flex;
+
+}
+.items li img{
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  width: 60px;
+}
+/* Randomizer Component Ends */

@@ -6,11 +6,6 @@ import ChampionSelector from './championSelctorForm'
 
 function App() {
 const [selectedChampions,setSelectedChampions] = useState([]);
-
-useEffect(()=>{
-  console.log(selectedChampions)
-},[selectedChampions])
-
  return (
     <>
       <Header />

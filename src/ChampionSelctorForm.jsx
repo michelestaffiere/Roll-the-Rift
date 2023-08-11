@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import DragonCall from "./DataDragonHandling";
 
 const ChampionSelector= ({setState}) =>{
-    
     //getting champion and version information.
     const [champions, items, version] = DragonCall();
     // states
@@ -10,9 +9,6 @@ const ChampionSelector= ({setState}) =>{
     const [championNames, setNames] = useState([]);
     const [ver, setVersion] = useState([]);
     const [filteredChampions , setFilter] =useState([]);
-
-
-
 
     useEffect(()=>{
         if(Object.keys(champions).length > 0){
@@ -28,10 +24,11 @@ const ChampionSelector= ({setState}) =>{
         champKeys.forEach((key)=>{
             const champion = champs[key];
             const data = {
-                'name': `${champion.id}`,
+                'name': `${champion.name}`,
                 'title': `${champion.title}`,
                 'key': `${champion.key}`,
-                'img' : `${champion.image.full}`
+                'img' : `${champion.image.full}`,
+                'id' : `${champion.id}`
             }
             championNames.push(data);
         });
@@ -56,8 +53,6 @@ const ChampionSelector= ({setState}) =>{
             setFilter(cloneFilteredChampions);
         }
     };
-
-
     return(
       <>
       {

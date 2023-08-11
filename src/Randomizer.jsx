@@ -38,7 +38,8 @@ const DataParser = () =>{
           'name': `${champion.name}`,
           'title': `${champion.title}`,
           'key': `${champion.key}`,
-          'img' : `${champion.image.full}`
+          'img' : `${champion.image.full}`,
+          'id' : `${champion.id}`
         }
         parsedChampions.push(data);
       });
@@ -127,6 +128,7 @@ const Randomizer = ({userChoice}) => {
   const [version, setVersion] = useState([]);
   const [randomChamp, setRanChamp] = useState([]);
   const [randomItems, setRanItems] = useState([]);
+  const [phrase,setPhrase] = useState("");
   
 
   useEffect(() => {
@@ -135,74 +137,112 @@ const Randomizer = ({userChoice}) => {
     setVersion(v)
   }, [c, i, v]);
 
+  const phrases = [
+      "Good luck... you'll need a miracle",
+      "oof, tough roll, like getting Sion support",
+      "Well, it could have been worse! You could've been autofilled jungle",
+      "LMAO, get ready to lose LP, like a Yasuo on your team",
+      "That's a rough one, your KDA will make Teemo proud",
+      "This looks fun... for the enemy team",
+      "Try not to smash your keyboard, they're not cheap",
+      "Brace yourself for this one, like a full AD Malphite engages",
+      "May the odds be ever in your favor, unlikely though",
+      "Here comes the challenge, as if facing Darius wasn't enough",
+      "Buckle up, it's gonna be a wild feed",
+      "Prepare for battle! Or just embrace defeat",
+      "You've been warned, but you'll probably still int",
+      "Show your skills, or lack thereof",
+      "Let the chaos begin, watch your team's positioning crumble",
+      "Incoming chaos! Get ready for pings galore",
+      "Hold on tight! You'll need a grip stronger than Darius' grip on Noxus",
+      "Get ready for some intense disappointment",
+      "This one's gonna test your limits, mostly your patience",
+      "Time to shine or crumble under pressure, let's be honest, it's the latter",
+      "Good luck with that, like expecting teammates to peel",
+      "Hope you've been practicing! Or don't, it won't matter",
+      "Anticipate the inevitable, like a Yasuo diving turret",
+      "Show 'em what you've got, or what you don't got",
+      "Just try not to embarrass yourself, or do, it's amusing",
+      "Don't let the tilt consume you! Or do, it's entertaining",
+      "It's all about the mental game now, too bad your mental is weaker than a caster minion's",
+      "Remember, it's just a game, but you're probably gonna lose",
+      "Time to channel your inner Faker, or feed like a Bronzodia",
+      "Victory or defeat, either way, it won't be your doing"
+    ];
+    const randomPhraseHandling = (array) =>{
+      const randomIndex = Math.floor(Math.random() * array.length)
+      const randomPhrase = array[randomIndex];
+      setPhrase(randomPhrase);
+    }
   const handleRollClick = () => {
     if (userSelectedChampions.length === 0){
       rtd(champs, items, setRanChamp, setRanItems);
+      randomPhraseHandling(phrases)
     } else{
       rtd(userSelectedChampions, items, setRanChamp, setRanItems);
+      randomPhraseHandling(phrases)
     }
   };
 
   const handleRandomDisplay = (randomChamp,randomItems,version) =>{
   let champ = randomChamp;
   let items = randomItems;
-  let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/` ;
-  
+  let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/`;
     return(
       <div className="randomizedData">
+        <div className="championInfo">
             <div className="championImg">
-              <img src={imgEndPoint + champ[0].img} alt={`${champ[0].name} has been rolled`}/>
+              <img src={imgEndPoint + champ[0].id +`_0.jpg`} alt={`${champ[0].name} has been rolled`}/>
             </div>
-            <div className="championInfo">
+            <div className="championDetails">
               <h2>{champ[0].name}</h2>
               <p>{champ[0].title}</p>
             </div>
-            <div className="items">
-              <ul>
-                {
-                  items.map((item)=>{
-                    let endpoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${item.image.full}`;
-                    return(
-                        <li key={item.name}>
-                          <img src={endpoint} alt={item.name} />
-                        </li>
+        </div>
+        <div className="items">
+            <p>{phrase}</p>
+            <ul>
+              {
+                items.map((item)=>{
+                  let endpoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${item.image.full}`;
+                  return(
+                      <li key={item.name}>
+                        <img src={endpoint} alt={item.name} />
+                      </li>
                     )
                   })
                 }
               </ul>
-              </div>
           </div>
+        </div>
     )
   };
   return (
     <>
       {champs.length === 0 ? (
-        <div>
+        <div className="loadingStartUp">
           <h2>Loading the rift!</h2>
           <img src="/src/assets/loading-app.gif" alt="Loading Walk" />
         </div>
       ) : (
         <>
-        <section className="randomizerContainer">
+        <div className="randomizerContainer">
         <button onClick={handleRollClick}>Roll the dice!</button>
           { randomChamp.length ===  0 ? (
-            <>
-            <h2>Greetings Summoner!</h2>
-            <p>Welcome to RTR: Roll the rift! are you tired of following pro guides and try hard reddit builds?</p>
-            <p>do you want to have fun again experimenting with wacky builds like how we used to back before this wretched game had a real meta? well look no further! </p>
-            <p>RTR is a TRUE random build generator, meaning NO hand holding, NO lane specific items, all thats left for you to do is have fun with runes and summoner spells</p>
-            <p>Rolled Garen with all AP items? tough luck thats your kit</p>
-            <p>With that being said, worry not my Jungle addicts, a random starting jungle item will be assigned to you as well as 6 full items.</p>
-            
-            <p>by default all champions will be considered viable rolls, if you dont have all champions unlocked or only want to play a certain few click your desired champions on the left.</p>
-           
-            </>
+            <div className="greeting">
+              <h1>Welcome to <span className="header">Roll The Rift!</span></h1>
+              <p>RTR is a true random load out randomizer for Leauge of legends</p>
+              <p>No one is safe and you will most certainly get a very wacky build, but thats the whole point!</p>
+              <p>RTR will generate for you a item set and champion to play, by default all champions will be thrown into the pool of possible outcomes. If you dont have all champions unlocked or only want to randomly generate loadouts for a select few champions then click on their portraits on the left. to narrow down who gets thrown into the mix. </p>
+
+              <p>unlike other randomizers you dont get to pick which lane you are playing and by default you will be given a random jungle item to start with if are looking to play jungle or get filled into that role - if you arent playing jungle then you can ignore said item</p>
+            </div>
           ) : (
             <> 
             {handleRandomDisplay(randomChamp,randomItems,version)}
             </>
           )}
-        </section>
+        </div>
         </>
       )}
     </>
