@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, cloneElement } from "react";
 import DragonCall from "./DataDragonHandling";
 
 const DataParser = () =>{
@@ -120,7 +120,7 @@ const rtd = (champArray, itemArray, setRanChamp , setRanItems, userSelection) =>
 };
 
 
-const Randomizer = ({userChoice}) => {
+const Randomizer = ({userChoice, children}) => {
   const [c, i, v] = DataParser();
   const userSelectedChampions = userChoice;
   const [champs, setChamps] = useState([]);
@@ -145,7 +145,6 @@ const Randomizer = ({userChoice}) => {
       "That's a rough one, your KDA will make Teemo proud",
       "This looks fun... for the enemy team",
       "Try not to smash your keyboard, they're not cheap",
-      "Brace yourself for this one, like a full AD Malphite engages",
       "May the odds be ever in your favor, unlikely though",
       "Here comes the challenge, as if facing Darius wasn't enough",
       "Buckle up, it's gonna be a wild feed",
@@ -167,7 +166,15 @@ const Randomizer = ({userChoice}) => {
       "It's all about the mental game now, too bad your mental is weaker than a caster minion's",
       "Remember, it's just a game, but you're probably gonna lose",
       "Time to channel your inner Faker, or feed like a Bronzodia",
-      "Victory or defeat, either way, it won't be your doing"
+      "Victory or defeat, either way, it won't be your doing",
+      "You may as well dodge this game",
+      "Just do your best to not run it down okay?",
+      "LOL",
+      "They don't know you son! they don't know you!",
+      "If a full crit Garen is considered meta than this should be fine",
+      "if full tank J4 top can work then so should this right?",
+      "-13LP"
+
     ];
     const randomPhraseHandling = (array) =>{
       const randomIndex = Math.floor(Math.random() * array.length)
@@ -190,33 +197,42 @@ const Randomizer = ({userChoice}) => {
   let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/`;
     return(
       <div className="randomizedData">
-        <div className="championInfo">
-            <div className="championImg">
-              <img src={imgEndPoint + champ[0].id +`_0.jpg`} alt={`${champ[0].name} has been rolled`}/>
-            </div>
-            <div className="championDetails">
-              <h2>{champ[0].name}</h2>
-              <p>{champ[0].title}</p>
-            </div>
-        </div>
-        <div className="items">
-            <p>{phrase}</p>
-            <ul>
-              {
-                items.map((item)=>{
-                  let endpoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${item.image.full}`;
-                  return(
-                      <li key={item.name}>
-                        <img src={endpoint} alt={item.name} />
-                      </li>
-                    )
-                  })
-                }
-              </ul>
+        <div className="grid1">
+          <div className="championInfo">
+              <div className="championImg">
+                <img src={imgEndPoint + champ[0].id +`_0.jpg`} alt={`${champ[0].name} has been rolled`}/>
+              </div>
+              <div className="championDetails">
+                <h2>{champ[0].name}</h2>
+              </div>
+          </div>
+          <div className="items">
+              <p>{phrase}</p>
+              <ul>
+                {
+                  items.map((item)=>{
+                    let endpoint = `https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${item.image.full}`;
+                    return(
+                        <li key={item.name}>
+                          <img src={endpoint} alt={item.name} />
+                        </li>
+                      )
+                    })
+                  }
+                </ul>
           </div>
         </div>
+          <div className="grid2">
+            <div className="buildSaver">
+              {React.cloneElement(children, { savedChamp: champ, savedItems: items, ver:version})}
+              {/* to pass down props to this child component i needed to clone it then pass it the props declared. */}
+            </div>
+        </div>
+      </div>
     )
   };
+
+
   return (
     <>
       {champs.length === 0 ? (
@@ -228,7 +244,9 @@ const Randomizer = ({userChoice}) => {
         <>
         <div className="randomizerContainer">
         <button onClick={handleRollClick}>Roll the dice!</button>
-          { randomChamp.length ===  0 ? (
+          { 
+          randomChamp.length ===  0 ? 
+          (
             <div className="greeting">
               <h1>Welcome to <span className="header">Roll The Rift!</span></h1>
               <p>RTR is a true random load out randomizer for Leauge of legends</p>
@@ -237,7 +255,8 @@ const Randomizer = ({userChoice}) => {
 
               <p>unlike other randomizers you dont get to pick which lane you are playing and by default you will be given a random jungle item to start with if are looking to play jungle or get filled into that role - if you arent playing jungle then you can ignore said item</p>
             </div>
-          ) : (
+          ) :
+          (
             <> 
             {handleRandomDisplay(randomChamp,randomItems,version)}
             </>

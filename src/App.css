@@ -1,11 +1,6 @@
 
 /* General Styling */
 :root{
-  --text: #e8e8e8;
-  --background: #030303;
-  --primary: #ffdc00;
-  --secondary: #1f1f1f;
-  --accent: #858585;
   font-family: 'Noto Sans Vithkuqi', sans-serif;
 }
 
@@ -42,7 +37,8 @@
  gap: .5rem;
  padding: 2rem;
  margin: 0 auto;
- width: 50rem;
+ max-width: 70%;
+ height: fit-content;
  padding: 10px;
 }
 .main .championSelection img{
@@ -57,6 +53,8 @@
 }
 /* ChampionSelection Component Styling ENDS*/
 /* ----------------------------------- */
+
+
 /* Randomizer Component Styling */
 .greeting{
   width: 50%;
@@ -100,44 +98,67 @@
   width: 100%;
   grid-column: 1/3;
 }
-/* Randomly generated info styling */
+
+/* Random Data from RTD */
 .randomizedData{
-  display: flex;
-  align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(1,1fr);
   gap: 2rem;
-  width: 80%;
+  max-width: 80%;
   padding: 1rem;
   border: 1px var(--primary) solid;
   border-radius: 5px;
-  /* filter: drop-shadow(-29px 31px 0px var(--primary)); */
-  -webkit-box-shadow: -21px 26px 0px -2px var(--primary); 
   box-shadow: -21px 26px 0px -2px var(--primary);
   background-color: var(--background);  
 }
 
-/* Champion Styling */
+.grid1{
+ align-self: center;
+
+}
+.gird2{}
+
+
+
+
+/* Champion IMG */
 .championDetails h2{
   font-size: 3em;
   text-transform: uppercase;
+  margin: 0;
 }
 .championImg img{
   border: 2px var(--accent) solid;
   border-radius: 5px;
 }
-/* item styling */
+/* Items Div*/
+.items{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
 .items ul{
   display: flex;
+  justify-content: center;
   list-style: none;
+  padding: 10px 0;
   gap:1rem;
-  background-color: blue;
+  background-color: var(--items);
+  border-radius: 5px;
+  border: 1px solid var(--itemsBorder);
+
 }
 .items li{
   display: flex;
 
 }
 .items li img{
-  border: 1px solid var(--accent);
+  border: 1px solid var(--primary);
   border-radius: 5px;
   width: 60px;
+}
+.items p{
+  font-size: 1.25rem;
 }
 /* Randomizer Component Ends */

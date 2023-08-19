@@ -62,10 +62,11 @@ button:focus-visible {
   --primary: #ffdc00;
   --secondary: #1f1f1f;
   --accent: #858585;
+  --items: #4e4400c6;
+  --itemsBorder:#ffffff84;
 
   background-color: var(--background);
   color: var(--text);
-  
 }
 
 
