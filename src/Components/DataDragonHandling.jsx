@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 // note, api is called Data dragon so instead of ApiCall -> DragonCall 😎
 const DragonCall = () =>{

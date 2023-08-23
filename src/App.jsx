@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 
 import './App.css'
-import Header from './Header'
-import Randomizer from './Randomizer'
-import ChampionSelector from './ChampionSelctor'
-import BuildSaver from './BuildSaver'
+import Header from './Components/Header'
+import Randomizer from './Components/Randomizer'
+import ChampionSelector from './Components/ChampionSelctor'
+import BuildSaver from './Components/BuildSaver'
 
 
 function App() {
