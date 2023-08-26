@@ -59,19 +59,19 @@ const ChampionSelector= ({setState}) =>{
         championNames.length === 0 ? 
         (null) :
         (
-            <>
-            <ul className="championSelection">
-                {championNames.map((champion)=>{
-                    const isSelected = filteredChampions.includes(champion);
-                    let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/${ver}/img/champion/`;
-                    return(
-                    <li key={champion.key}>
-                        <img src={imgEndPoint + champion.img} alt={champion} className={isSelected ? "selected" : ""} onClick={()=>{handleClick(filteredChampions , setFilter, champion)}} />
-                    </li>
-                    )
-                })}    
-            </ul>
-            </>
+            <div className="championSelection">
+                <ul >
+                    {championNames.map((champion)=>{
+                        const isSelected = filteredChampions.includes(champion);
+                        let imgEndPoint = `https://ddragon.leagueoflegends.com/cdn/${ver}/img/champion/`;
+                        return(
+                        <li key={champion.key}>
+                            <img src={imgEndPoint + champion.img} alt={champion} className={isSelected ? "selected" : ""} onClick={()=>{handleClick(filteredChampions , setFilter, champion)}} />
+                        </li>
+                        )
+                    })}    
+                </ul>
+            </div>
         )
       }
       </>

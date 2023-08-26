@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, addDoc, getDocs } from '@firebase/firestore';
+import { collection, addDoc, getDocs, doc } from '@firebase/firestore';
 import db from "./Firebase";
 
 const savedBuildsDuringSession = [];
@@ -9,22 +9,29 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
   const [userReference, setRef] = useState("");
   const [collectionReference, setCollection] = useState("");
   const [dataFromFirestore, setFirestore] = useState([]);
-  const [buildsFlag, setFlag] = useState(0);
-
-  // variables 
+  const [pageLoad, setPageLoad] = useState(true);
+  
+  // Component scope variables 
   const savedLoadoutCollectionName = "builds";
   const dbRootName = "users";
   let championImgEndpoint = `https://ddragon.leagueoflegends.com/cdn/${ver}/img/champion/`;
   let itemImgEndpoint = `https://ddragon.leagueoflegends.com/cdn/${ver}/img/item/`;
+  
+ 
+
 
   const handleCreatingFirestoreReference = async () => {
+    // creates the users reference to firestore if none exists.
     if (userReference === "") {
       try {
         const userPathway = await addDoc(collection(db, dbRootName), {});
-        setRef(userPathway);
+        const userDoc = userPathway._key.path.segments[1];
+        const userDocRef = doc(db,dbRootName,userDoc);
+        setRef(userDocRef);
 
-        const userBuildCollection = collection(userPathway, savedLoadoutCollectionName);
-        setCollection(userBuildCollection);
+        const userCollection = collection(userDocRef,savedLoadoutCollectionName);
+
+        setCollection(userCollection);
 
       } catch (error) {
         console.error('Error creating user reference:', error);
@@ -32,8 +39,32 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
     }
   };
 
+  // create a function that stores userDoc to local storage so we can look for it later on to make the connection to the database.
+
+  const stateToLocalStorage = () =>{
+      const userDoc = userReference._key.path.segments[1];
+      localStorage.setItem("userKey",userDoc);
+  };
+
+  // create a function that reads local storage
+  // gets the object from local storage and uses it to create a db reference to the users id
+  // sets sessions states to the users firestore reference
+
+  const localStorageToState = () =>{
+    // gets localstorage object and builds connection to firestore.
+    const userDoc = localStorage.getItem("userKey");
+    const userDocRef = doc(db,dbRootName,userDoc);
+    setRef(userDocRef);
+
+    const userCollection = collection(userDocRef,savedLoadoutCollectionName);
+
+    setCollection(userCollection);
+  };
+
   const handleSaveToFirestore = async () => {
+    // Saves to the users point in the database.
     let mostRecentSave = savedBuildsDuringSession[savedBuildsDuringSession.length - 1];
+
     let savesInFirestore = await handleGetData();
 
     const mostRecentExistsInDb = savesInFirestore.some(existingSave =>
@@ -55,6 +86,7 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
   };
 
   const handleGetData = async () => {
+    //helper function that retrieves the data from the users point in the database
     if (!userReference) {
       return [];
     }
@@ -66,10 +98,12 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
     buildDocuments.forEach(doc => {
       builds.push(doc.data());
     });
-
-    console.log('data retrieved');
     return builds;
   };
+  const handleFindingSavedBuildsFromFireStore = async () =>{
+    const updatedData = await handleGetData();
+    setFirestore(updatedData);
+  }
 
   const handleSaveClick = async () => {
     let savedLoadout = {
@@ -95,62 +129,68 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
     }
 
     await handleSaveToFirestore();
-    const updatedData = await handleGetData();
-    setFirestore(updatedData);
-    setFlag(buildsFlag + 1);
+    handleFindingSavedBuildsFromFireStore();
   };
 
+//Run on Mount
   useEffect(() => {
-    handleCreatingFirestoreReference();
+    if(userReference === "" && localStorage.getItem("userKey") === null ){
+      handleCreatingFirestoreReference();
+    } else if(userReference === "" && localStorage.getItem("userKey") !== null){
+      localStorageToState();
+    }
+    setPageLoad(false);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await handleGetData();
-      setFirestore(data);
-      console.log('state updated');
-    };
+//Run after initial mount
+useEffect(()=>{
+  if(userReference !== "" && localStorage.getItem("userKey") === null){
+    stateToLocalStorage();
+  }else{
+    handleFindingSavedBuildsFromFireStore();
+  }
+},[userReference])
 
-    fetchData();
-    console.log('firestore updated.');
-  }, [buildsFlag]);
 
   
     return( 
         <>
         <button onClick={handleSaveClick}>Save Build</button>
         {dataFromFirestore === null ? <h2>Nothing saved!</h2> : (
-        <div className='savedBuilds'>
-            {dataFromFirestore.map((item, index) => (
-                <div key={index}>
-                    <div className='savedChampion'>
-                        <img src={championImgEndpoint+item.championImg} alt={item.champion}/>
-                    </div>
-                    <div className='savedItemSet'>
-                        <ul>
-                            <li>
-                                <img src={itemImgEndpoint+item.item1} alt={"img code "+item.item1} />
-                            </li>
-                            <li>
-                                <img src={itemImgEndpoint+item.item2} alt={"img code "+item.item2} />
-                            </li>
-                            <li>
-                                <img src={itemImgEndpoint+item.item3} alt={"img code "+item.item3} />
-                            </li>
-                            <li>
-                                <img src={itemImgEndpoint+item.item4} alt={"img code "+item.item4} />
-                            </li>
-                            <li>
-                                <img src={itemImgEndpoint+item.item5} alt={"img code "+item.item5} />
-                            </li>
-                            <li>
-                                <img src={itemImgEndpoint+item.item6} alt={"img code "+item.item6} />
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            ))}
-        </div>
+          <>
+          <h2>SAVED BUILDS</h2>
+          <div className='savedBuilds'>
+              {dataFromFirestore.map((item, index) => (
+                  <div className='loadOut' key={index}>
+                      <div className='savedChampion'>
+                          <img src={championImgEndpoint+item.championImg} alt={item.champion}/>
+                      </div>
+                      <div className='savedItemSet'>
+                          <ul>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item1} alt={"img code "+item.item1} />
+                              </li>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item2} alt={"img code "+item.item2} />
+                              </li>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item3} alt={"img code "+item.item3} />
+                              </li>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item4} alt={"img code "+item.item4} />
+                              </li>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item5} alt={"img code "+item.item5} />
+                              </li>
+                              <li>
+                                  <img src={itemImgEndpoint+item.item6} alt={"img code "+item.item6} />
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              ))}
+          </div>
+        </>
         )}
     </>
     );
