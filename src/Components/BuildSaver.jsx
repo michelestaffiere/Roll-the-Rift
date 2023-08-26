@@ -164,6 +164,7 @@ useEffect(()=>{
                   <div className='loadOut' key={index}>
                       <div className='savedChampion'>
                           <img src={championImgEndpoint+item.championImg} alt={item.champion}/>
+                          <h3>{item.champion}</h3>
                       </div>
                       <div className='savedItemSet'>
                           <ul>

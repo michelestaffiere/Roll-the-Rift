@@ -128,6 +128,7 @@ align-items: center;
   border: 2px var(--accent) solid;
   border-radius: 5px;
 }
+
 /* Items Div*/
 .items{
   display: flex;
@@ -160,6 +161,7 @@ align-items: center;
 /* Randomizer Component Ends */
 
 
+
 /* Build Saver Div (holds all the recent saves) */
   .buildSaver{
     height: 50%
@@ -182,12 +184,37 @@ align-items: center;
   scrollbar-color: var(--primary) var(--background);
   scrollbar-width: thin;
 }
-.loadOut {
-  width: 45%;
-  border: 1px solid var(--accent);
-  border-radius: 5px;
-  padding: 5px;
+
+.savedBuilds::-webkit-scrollbar{
+  background-color: var(--background);
+  width: 5px;
+}
+.savedBuilds::-webkit-scrollbar-thumb{
   background-color: var(--primary);
+  border-radius: 5px;
+}
+/* saved loadout items */
+.loadOut {
+  max-height: 250px;
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  padding: 10px;
+  align-self: center;
+}
+.savedChampion{
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.savedChampion h3{
+  text-transform: uppercase;
+  text-rendering: geometricPrecision;
+}
+.savedChampion img{
+  border: 1px solid var(--accent);
+}
+.savedItemSet ul li img{
+  border: 1px solid var(--accent);
 }
 .savedBuilds .savedChampion img{
   width: 70px;
@@ -205,4 +232,78 @@ align-items: center;
   width: 45px;
   border: 2px solid var(--background);
   border-radius: 5px;
+}
+/* Build Saver ends */
+
+
+/* Mobile Break point */
+
+
+@media only screen
+and (max-width: 736px) /* maximum width */
+and (max-height: 896px) /* maximum height */
+{
+  body{
+    overflow-x: hidden;
+  }
+  .main{
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 6rem;
+  }
+  .randomizerContainer{
+    width: 90%;
+  }
+  .greeting{
+    width: 100%;
+  }
+  .main .championSelection{
+    width: 100%;
+  }
+  .championSelection ul{
+    padding: 0;
+    margin: 0;
+  }
+
+  .randomizerContainer{
+    width: 100%;
+    max-height: fit-content;
+    align-items: center;
+  }
+  .randomizedData{
+    padding: 5px;
+    flex-direction: column;
+    text-align: center;
+    height: fit-content;
+  
+  }
+  .championInfo .championImg{
+    display: flex;
+    justify-content: center;
+  }
+  .championInfo .championImg img{
+    width: 60%;
+  }
+  .items ul{
+    flex-wrap: wrap;
+  }
+  .items ul li img{
+    width: 50px;
+  }
+
+  .grid2{
+    overflow-y: hidden;
+    height: 25rem;
+  }
+  .loadOut .savedChampion img{
+    width: 15%;
+    height: 15%;
+  }
+  .loadOut .savedChampion h3{
+   margin: 0;
+   font-size: 1rem;
+  }
+  .loadOut .savedItemSet img {
+    width: 25px;
+  }
 }
