@@ -99,6 +99,7 @@ align-items: center;
 /* Random Data from RTD */
 .randomizedData{
   display: flex;
+  justify-content: space-around;
   gap: 2rem;
   max-width: 80%;
   max-height: 50rem;
@@ -112,10 +113,11 @@ align-items: center;
 
 .grid1{
  align-self: center;
-
 }
 .gird2{
  align-self: center;
+ overflow-y: scroll;
+ width: 100%;
 }
 
 /* Champion IMG */
@@ -164,7 +166,12 @@ align-items: center;
 
 /* Build Saver Div (holds all the recent saves) */
   .buildSaver{
-    height: 50%
+    height: 100%;
+    overflow: hidden;
+  }
+  .buildSaver h2 {
+    margin: 0 0 1rem;
+    border-bottom: 1px solid var(--accent);
   }
 
 /* SaveBuild Button */
@@ -176,25 +183,28 @@ align-items: center;
 /* SavedBuilds Div */
 
 .savedBuilds{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  overflow-y:auto;
-  height: 500px;
+  overflow-y:scroll;
+  min-height: 500px;
+  height: 70%;
+  border-radius: 0;
+}
+.savedBuilds{ /* Firefox scroll bar styling  */
   scrollbar-color: var(--primary) var(--background);
   scrollbar-width: thin;
 }
 
-.savedBuilds::-webkit-scrollbar{
+.savedBuilds::-webkit-scrollbar{ /* Chrome scroll bar styling  */
   background-color: var(--background);
   width: 5px;
 }
-.savedBuilds::-webkit-scrollbar-thumb{
+.savedBuilds::-webkit-scrollbar-thumb{/* Chrome scroll bar styling  */
   background-color: var(--primary);
   border-radius: 5px;
 }
+
 /* saved loadout items */
 .loadOut {
+  margin: 1rem 1rem 0 0;
   max-height: 250px;
   border: 1px solid var(--primary);
   border-radius: 5px;
@@ -233,6 +243,7 @@ align-items: center;
   border: 2px solid var(--background);
   border-radius: 5px;
 }
+
 /* Build Saver ends */
 
 
@@ -292,8 +303,13 @@ and (max-height: 896px) /* maximum height */
   }
 
   .grid2{
-    overflow-y: hidden;
+    overflow-y: scroll;
     height: 25rem;
+  }
+  .savedBuilds{
+    height: 50%;
+    min-height: 50%;
+    /* setting min height and height here fixes a visual bug in chrome based browsers. unsure why. */
   }
   .loadOut .savedChampion img{
     width: 15%;
