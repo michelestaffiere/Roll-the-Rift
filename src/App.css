@@ -246,9 +246,36 @@ align-items: center;
 
 /* Build Saver ends */
 
+/* Footer */
+.footer{
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.footer div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+.footer h3 span{
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+.footer div ul{
+  display: flex;
+  list-style: none;
+  gap: 1rem;
+  padding: 0;
+}
+.footer li a{
+  color: var(--text);
+  text-decoration:double underline var(--primary)
+}
+/* Footer ends */
 
 /* Mobile Break point */
-
 
 @media only screen
 and (max-width: 736px) /* maximum width */

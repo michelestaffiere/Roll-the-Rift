@@ -5,6 +5,7 @@ import Header from './Components/Header'
 import Randomizer from './Components/Randomizer'
 import ChampionSelector from './Components/ChampionSelctor'
 import BuildSaver from './Components/BuildSaver'
+import Footer from './Components/Footer'
 
 
 function App() {
@@ -18,6 +19,7 @@ const [selectedChampions,setSelectedChampions] = useState([]);
         <BuildSaver />
       </Randomizer>
       </section>
+      <Footer />
     </>
   )
 }
