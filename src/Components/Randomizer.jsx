@@ -238,7 +238,7 @@ const Randomizer = ({userChoice, children}) => {
       {champs.length === 0 ? (
         <div className="loadingStartUp">
           <h2>Loading the rift!</h2>
-          <img src="/src/assets/loading-app.gif" alt="Loading Walk" />
+          <img src="/loading-app.gif" alt="Loading Walk" />
         </div>
       ) : (
         <>
