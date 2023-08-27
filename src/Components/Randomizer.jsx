@@ -251,9 +251,9 @@ const Randomizer = ({userChoice, children}) => {
               <h1>Welcome to <span className="header">Roll The Rift!</span></h1>
               <p>RTR is a true random load out randomizer for Leauge of legends</p>
               <p>No one is safe and you will most certainly get a very wacky build, but thats the whole point!</p>
-              <p>RTR will generate for you a item set and champion to play, by default all champions will be thrown into the pool of possible outcomes. If you dont have all champions unlocked or only want to randomly generate loadouts for a select few champions then click on their portraits on the left. to narrow down who gets thrown into the mix. </p>
 
-              <p>unlike other randomizers you dont get to pick which lane you are playing and by default you will be given a random jungle item to start with if are looking to play jungle or get filled into that role - if you arent playing jungle then you can ignore said item</p>
+              <p>RTR will generate for you a item set and champion to play, by default all champions will be thrown into the pool of possible outcomes. If you don't have all champions unlocked or only want to randomly generate loadouts for a select few champions then click on their portraits. </p>
+
             </div>
           ) :
           (
