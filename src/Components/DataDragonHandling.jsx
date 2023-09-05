@@ -6,6 +6,7 @@ const DragonCall = () =>{
      const [items,setItems] = useState([]);
      const [version,setVersion] = useState([]);
      const [versionStatus , setVersionStatus] = useState(true);
+     
      // latestVersion - gets the most recent patch from data dragon
      const latestVersion = async () =>{
         const versionFetch = await fetch("https://ddragon.leagueoflegends.com/api/versions.json")

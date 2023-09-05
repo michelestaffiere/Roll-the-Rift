@@ -350,3 +350,11 @@ and (max-height: 896px) /* maximum height */
     width: 25px;
   }
 }
+
+.footer{
+  justify-content: center;
+}
+.footer div{
+  width: 100%;
+  text-align: center  ;
+}

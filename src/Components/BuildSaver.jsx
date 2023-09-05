@@ -93,6 +93,7 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
 
     const buildsCollection = collection(userReference, 'builds');
     const buildDocuments = await getDocs(buildsCollection);
+    
     const builds = [];
 
     buildDocuments.forEach(doc => {
@@ -100,6 +101,8 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
     });
     return builds;
   };
+
+  
   const handleFindingSavedBuildsFromFireStore = async () =>{
     const updatedData = await handleGetData();
     setFirestore(updatedData);
@@ -125,7 +128,6 @@ const BuildSaver = ({ savedChamp, savedItems, ver }) => {
 
     if (!isDuplicate) {
       savedBuildsDuringSession.push(savedLoadout);
-      console.log('not a duplicate, added to array');
     }
 
     await handleSaveToFirestore();
